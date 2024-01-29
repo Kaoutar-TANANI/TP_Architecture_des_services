@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="serv"
+		xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:tns="http://www.talend.org/service/"
+		targetNamespace="http://www.talend.org/service/">
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.talend.org/service/">
+			<xsd:element name="servOperationRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="servOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getUserbyid"
+				type="tns:getUserbyidType">
+			</xsd:element>
+			<xsd:element name="getUserbyidResponse" type="xsd:string"></xsd:element>
+        
+            <xsd:complexType name="getUserbyidType">
+            	<xsd:sequence>
+            		<xsd:element name="id" type="xsd:int"></xsd:element>
+            	</xsd:sequence>
+            </xsd:complexType>
+		
+		
+            <xsd:complexType name="users"></xsd:complexType>
+        
+            <xsd:complexType name="getUserbyidResponseType"></xsd:complexType>
+        </xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="servOperationRequest">
+		<wsdl:part name="parameters" element="tns:getUserbyid"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="servOperationResponse">
+		<wsdl:part name="parameters" element="tns:getUserbyidResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:portType name="servPortType">
+		<wsdl:operation name="servOperation">
+			<wsdl:input message="tns:servOperationRequest"></wsdl:input>
+			<wsdl:output message="tns:servOperationResponse"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="servBinding" type="tns:servPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="servOperation">
+			<soap:operation soapAction="http://www.talend.org/service/servOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="serv">
+		<wsdl:port name="servPort" binding="tns:servBinding">
+			<soap:address location="http://localhost:8090/services/serv" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
